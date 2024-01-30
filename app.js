@@ -17,30 +17,43 @@ function handleKeyPress(e) {
 
 // Every time plus sign is clicked => add a new task
 function handleAddDeleteClick() {
-  const inputValue = todoValue.value.trim();
+  const inputValue = todoValue.value;
   if (inputValue === "") {
     alert("Please enter your task");
     todoValue.focus();
   } else {
-    // add this newly created task as a appenChild to our list as a new item
+    // add this newly styled created task as a appenChild to our list as a new item
     const li = document.createElement("li");
-    li.innerHTML = `<div class="item-setting">${inputValue}</div><span><i class="fa-solid fa-trash todo-controls"></i></span>`;
+
+    const itemSettingDiv = document.createElement("div");
+    itemSettingDiv.className = "item-setting";
+    itemSettingDiv.textContent = inputValue;
+
+    const todoControlsSpan = document.createElement("span");
+    const trashIcon = document.createElement("i");
+    trashIcon.className = "fa-solid fa-trash todo-controls";
+    todoControlsSpan.appendChild(trashIcon);
+
+    li.appendChild(itemSettingDiv);
+    li.appendChild(todoControlsSpan);
+
     listContainer.appendChild(li);
+
+    // reset result field after adding task
+    resultParagraph.textContent = "";
+    resultParagraph.style.padding = "0rem";
+
     saveData();
   }
   todoValue.value = ""; // reset input area
-  if (
-    listContainer.childElementCount === 0 ||
-    listContainer.children[0].tagName !== "LI"
-  ) {
-    resultParagraph.textContent = "";
-  }
 }
 
 function handleListContainerClick(e) {
   // Toggle => checked or not
-  if (e.target.tagName === "LI") {
+  if (e.target.tagName == "LI" || e.target.classList.contains("item-setting")) {
+    e.target.parentElement.classList.toggle("checked");
     e.target.classList.toggle("checked");
+    console.log(e.target.classList);
     saveData();
   }
   // delete according to target
@@ -54,8 +67,11 @@ function handleListContainerClick(e) {
       e.target.parentElement.parentElement.remove(); // li element but clicked one
       // console.log(e.target.parentElement.parentElement);
       saveData();
-      // write the result message into <p> tag
-      resultParagraph.textContent = `${itemText} is successfully deleted `;
+      // write the styled result message into <p> tag
+      if (listContainer.childElementCount != 0) {
+        resultParagraph.textContent = `"${itemText}" is successfully deleted `;
+        resultParagraph.style.padding = ".3rem";
+      }
     }
   }
 }
