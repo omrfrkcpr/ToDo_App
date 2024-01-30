@@ -24,12 +24,13 @@ body {
 
 .container {
   background-color: #f9f9f9;
-  padding: 50px 30px;
+  padding: 50px 30px 30px;
   width: 500px;
   margin: 1rem;
   z-index: 1;
   transform: rotate(-1deg);
   position: relative;
+  box-shadow: 2px 2px 30px black;
 }
 
 .container::before {
@@ -86,6 +87,11 @@ nav .result {
   color: white;
 }
 
+.todo-body i:hover {
+  color: black;
+  transition-duration: 0.3s;
+}
+
 ul li {
   list-style: none;
   font-size: 18px;
@@ -137,16 +143,29 @@ ul li.checked::before {
   height: 25px;
   padding: 3px;
   margin: 5px;
+  color: indianred;
 }
 
 .todo-controls:hover {
-  opacity: 0.7;
+  color: black;
+  transform: scale(1.03);
 }
 
-.fa-pen-to-square {
-  color: #7b3f00; /* chocolate */
+.clearSection {
+  text-align: center;
+  margin-top: 1rem;
 }
 
-.fa-trash {
-  color: indianred;
+.clearBtn {
+  height: 40px;
+  width: 70px;
+  border: none;
+  border-radius: 20px;
+  background-color: bisque;
+  font-size: 1rem;
+}
+
+.clearBtn:hover {
+  background-color: rgb(231, 170, 95);
+  color: white;
 }
