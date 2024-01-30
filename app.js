@@ -9,6 +9,9 @@ todoValue.addEventListener("keypress", handleKeyPress);
 addDeleteClick.addEventListener("click", handleAddDeleteClick);
 listContainer.addEventListener("click", handleListContainerClick);
 
+//& Empty taskList array to save tasks in local storage
+const taskList = [];
+
 //& Functions
 // Every time "Enter" key is pressed => add it as a new task
 function handleKeyPress(e) {
@@ -37,7 +40,14 @@ function handleAddDeleteClick() {
     li.appendChild(itemSettingDiv);
     li.appendChild(todoControlsSpan);
 
+    // add newly created li element into ul
     listContainer.appendChild(li);
+
+    // Oluşturulan li elementini diziyi güncelleyerek ekle
+    taskList.push({
+      task: inputValue,
+      // Diğer gerekli bilgileri buraya ekleyebilirsiniz
+    });
 
     // reset result field after adding task
     resultParagraph.textContent = "";
