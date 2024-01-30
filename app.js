@@ -24,11 +24,12 @@ function handleKeyPress(e) {
 // Every time plus sign is clicked => add a new task
 function handleAddTaskClick() {
   const inputValue = todoValueInput.value;
+
   if (inputValue === "") {
     alert("Please enter your task");
     todoValueInput.focus();
   } else {
-    // add this newly styled created task as a appenChild to our list as a new item
+    // add this newly styled created task as a appenChild into our list as a new item
     const li = document.createElement("li");
 
     const itemSettingDiv = document.createElement("div");
@@ -46,20 +47,20 @@ function handleAddTaskClick() {
     // add newly created li element into ul
     listContainerUl.appendChild(li);
 
-    // Oluşturulan li elementini toDoList'e ekle
+    // push new li element to toDoList
+
     toDoList.push({
-      task: inputValue,
+      task_name: inputValue,
       checked: false,
-      // Diğer gerekli bilgileri buraya ekleyebilirsiniz
     });
 
     // reset result field after adding task
     resultPar.textContent = "";
-    resultPar.style.padding = "0rem";
+    resultPar.style.padding = "0rem"; // write it later
 
     saveData();
   }
-  todoValueInput.value = ""; // reset input area
+  todoValueInput.value = ""; // reset input area after adding task
 }
 
 // Toggle => checked or not
@@ -67,13 +68,17 @@ function handleToggleCheckedClick(e) {
   if (e.target.tagName == "LI" || e.target.classList.contains("item-setting")) {
     e.target.parentElement.classList.toggle("checked");
     e.target.classList.toggle("checked");
-    console.log(e.target.classList);
+    console.log(e.target);
 
     // Update toDoList with the new checked status
-    const itemText = e.target.textContent;
-    const task = toDoList.find((task) => task.task === itemText);
-    if (task) {
-      task.checked = !task.checked;
+    const itemText = e.target.textContent; // = inputValue
+    const tasks = toDoList.filter((task) => task.task_name === itemText); // filter the checked status of more than one item with the same task name
+
+    if (tasks.length > 0) {
+      tasks.forEach((task) => {
+        task.checked = !task.checked;
+      });
+
       saveData();
     }
   }
@@ -82,14 +87,16 @@ function handleToggleCheckedClick(e) {
 function handleDeleteTaskClick(e) {
   // delete according to target
   if (e.target.tagName === "I" && e.target.parentElement.tagName === "SPAN") {
-    const itemText = e.target.parentElement.previousElementSibling.textContent;
+    const itemText = e.target.parentElement.previousElementSibling.textContent; // = inputValue
     if (confirm(`"${itemText}" will be permanently deleted. Are you sure?`)) {
-      e.target.parentElement.parentElement.remove(); // li element but clicked one
+      e.target.parentElement.parentElement.remove(); // clicked li element
 
       // Remove task from toDoList
-      const taskIndex = toDoList.findIndex((task) => task.task === itemText);
+      const taskIndex = toDoList.findIndex(
+        (task) => task.task_name === itemText
+      );
       if (taskIndex !== -1) {
-        toDoList.splice(taskIndex, 1);
+        toDoList.splice(taskIndex, 1); // starts with taskIndex and delete 1 item
         saveData();
       }
 
@@ -129,7 +136,7 @@ function showTasks() {
 
       const itemSettingDiv = document.createElement("div");
       itemSettingDiv.className = "item-setting";
-      itemSettingDiv.textContent = task.task;
+      itemSettingDiv.textContent = task.task_name;
 
       const todoControlsSpan = document.createElement("span");
       const trashIcon = document.createElement("i");
@@ -139,10 +146,9 @@ function showTasks() {
       li.appendChild(itemSettingDiv);
       li.appendChild(todoControlsSpan);
 
-      // Set checked status
+      // Set checked status : if its true then add checked class
       if (task.checked) {
         li.classList.add("checked");
-        itemSettingDiv.textContent = itemSettingDiv.textContent; // Force reflow for updating styles
       }
 
       // add newly created li element into ul
