@@ -1,62 +1,73 @@
-const todoValue = document.getElementById("todoText"),
-  listContainer = document.getElementById("list-container"),
-  addUpdateClick = document.getElementById("AddUpdateClick");
+//& Selectors
+const todoValue = document.getElementById("todoText");
+const listContainer = document.getElementById("list-container");
+const addDeleteClick = document.getElementById("addDeleteClick");
+const resultParagraph = document.querySelector(".result");
 
-// Every time "Enter" key is also pressed => add a new task
-todoValue.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") addUpdateClick.click();
-});
+//& Event Listeners
+todoValue.addEventListener("keypress", handleKeyPress);
+addDeleteClick.addEventListener("click", handleAddDeleteClick);
+listContainer.addEventListener("click", handleListContainerClick);
+
+//& Functions
+// Every time "Enter" key is pressed => add it as a new task
+function handleKeyPress(e) {
+  if (e.key === "Enter") addDeleteClick.click();
+}
 
 // Every time plus sign is clicked => add a new task
-addUpdateClick.addEventListener("click", () => {
-  if (todoValue.value === "") {
+function handleAddDeleteClick() {
+  const inputValue = todoValue.value.trim();
+  if (inputValue === "") {
     alert("Please enter your task");
     todoValue.focus();
   } else {
-    // add input value to our lists as a new item
-    let li = document.createElement("li");
-    const todoItem = `<div class="item-setting">${todoValue.value}</div><span><i class="fa-solid fa-trash todo-controls"></i></span>`;
-
-    li.innerHTML = todoItem;
+    // add this newly created task as a appenChild to our list as a new item
+    const li = document.createElement("li");
+    li.innerHTML = `<div class="item-setting">${inputValue}</div><span><i class="fa-solid fa-trash todo-controls"></i></span>`;
     listContainer.appendChild(li);
+    saveData();
   }
-  todoValue.value = ""; // reset input
-  document.querySelector("P").textContent = "";
-  saveData();
-});
+  todoValue.value = ""; // reset input area
+  if (
+    listContainer.childElementCount === 0 ||
+    listContainer.children[0].tagName !== "LI"
+  ) {
+    resultParagraph.textContent = "";
+  }
+}
 
-// Toggle checked or delete according to target
-listContainer.addEventListener(
-  "click",
-  (e) => {
-    if (e.target.tagName === "LI") {
-      e.target.classList.toggle("checked");
+function handleListContainerClick(e) {
+  // Toggle => checked or not
+  if (e.target.tagName === "LI") {
+    e.target.classList.toggle("checked");
+    saveData();
+  }
+  // delete according to target
+  else if (
+    e.target.tagName === "I" &&
+    e.target.parentElement.tagName === "SPAN"
+  ) {
+    // e.target = i => e.target.parentElement = span => e.target.parentElement.previousElementSibling = div
+    const itemText = e.target.parentElement.previousElementSibling.textContent;
+    if (confirm(`${itemText} will be permanently deleted. Are you sure?`)) {
+      e.target.parentElement.parentElement.remove(); // li element but clicked one
+      // console.log(e.target.parentElement.parentElement);
       saveData();
-    } else if (
-      e.target.tagName === "I" &&
-      e.target.parentElement.tagName === "SPAN"
-    ) {
-      const itemText =
-        e.target.parentElement.previousElementSibling.textContent; // e.target = i => e.target.parentElement = span => e.target.parentElement.previousElementSibling = div
-      if (confirm(`${itemText} will be permanently deleted. Are you sure?`)) {
-        // Check if the clicked element is the trash icon inside a span
-        e.target.parentElement.parentElement.remove();
-        saveData();
-        // Get the <P> tag and write the message into it
-        const pTag = document.querySelector("P");
-        pTag.textContent = `${itemText} is successfully deleted `;
-      }
+      // write the result message into <p> tag
+      resultParagraph.textContent = `${itemText} is successfully deleted `;
     }
-  },
-  false
-);
+  }
+}
 
+// save data in local storage
 function saveData() {
   localStorage.setItem("data", listContainer.innerHTML);
 }
 
-function showTast() {
+// show all saved datas in local storage
+function showTasks() {
   listContainer.innerHTML = localStorage.getItem("data");
 }
 
-showTast();
+showTasks();
