@@ -1,38 +1,32 @@
 //& Selectors
-const todoValue = document.getElementById("todoText");
-const listContainer = document.getElementById("list-container");
-const addDeleteClick = document.getElementById("addDeleteClick");
-const clearAll = document.querySelector(".clearBtn");
-const resultParagraph = document.querySelector(".result");
+const todoValueInput = document.getElementById("todo-value");
+const listContainerUl = document.getElementById("list-container");
+const addTaskI = document.getElementById("add-task");
+const clearBtn = document.querySelector(".clearBtn");
+const resultPar = document.querySelector(".result");
 
-//& Initial taskList array
-let taskList = [];
+//& Initial toDoList array
+let toDoList = [];
 
 //& Event Listeners
-todoValue.addEventListener("keypress", handleKeyPress);
-listContainer.addEventListener("click", handleListContainerClick);
-addDeleteClick.addEventListener("click", handleAddDeleteClick);
-clearAll.addEventListener("click", () => {
-  if (confirm("Your ToDo List will be permanently cleared. Are you sure?")) {
-    // Clear local storage
-    localStorage.removeItem("taskList");
-    // Reload the page
-    location.reload();
-  }
-});
+todoValueInput.addEventListener("keypress", handleKeyPress);
+listContainerUl.addEventListener("click", handleToggleCheckedClick);
+listContainerUl.addEventListener("click", handleDeleteTaskClick);
+addTaskI.addEventListener("click", handleAddTaskClick);
+clearBtn.addEventListener("click", handleClearBtnClick);
 
 //& Functions
 // Every time "Enter" key is pressed => add it as a new task
 function handleKeyPress(e) {
-  if (e.key === "Enter") addDeleteClick.click();
+  if (e.key === "Enter") addTaskI.click();
 }
 
 // Every time plus sign is clicked => add a new task
-function handleAddDeleteClick() {
-  const inputValue = todoValue.value;
+function handleAddTaskClick() {
+  const inputValue = todoValueInput.value;
   if (inputValue === "") {
     alert("Please enter your task");
-    todoValue.focus();
+    todoValueInput.focus();
   } else {
     // add this newly styled created task as a appenChild to our list as a new item
     const li = document.createElement("li");
@@ -50,77 +44,87 @@ function handleAddDeleteClick() {
     li.appendChild(todoControlsSpan);
 
     // add newly created li element into ul
-    listContainer.appendChild(li);
+    listContainerUl.appendChild(li);
 
-    // Oluşturulan li elementini taskList'e ekle
-    taskList.push({
+    // Oluşturulan li elementini toDoList'e ekle
+    toDoList.push({
       task: inputValue,
       checked: false,
       // Diğer gerekli bilgileri buraya ekleyebilirsiniz
     });
 
     // reset result field after adding task
-    resultParagraph.textContent = "";
-    resultParagraph.style.padding = "0rem";
+    resultPar.textContent = "";
+    resultPar.style.padding = "0rem";
 
     saveData();
   }
-  todoValue.value = ""; // reset input area
+  todoValueInput.value = ""; // reset input area
 }
 
-function handleListContainerClick(e) {
-  // Toggle => checked or not
+// Toggle => checked or not
+function handleToggleCheckedClick(e) {
   if (e.target.tagName == "LI" || e.target.classList.contains("item-setting")) {
     e.target.parentElement.classList.toggle("checked");
     e.target.classList.toggle("checked");
     console.log(e.target.classList);
 
-    // Update taskList with the new checked status
+    // Update toDoList with the new checked status
     const itemText = e.target.textContent;
-    const task = taskList.find((task) => task.task === itemText);
+    const task = toDoList.find((task) => task.task === itemText);
     if (task) {
       task.checked = !task.checked;
       saveData();
     }
   }
+}
+
+function handleDeleteTaskClick(e) {
   // delete according to target
-  else if (
-    e.target.tagName === "I" &&
-    e.target.parentElement.tagName === "SPAN"
-  ) {
+  if (e.target.tagName === "I" && e.target.parentElement.tagName === "SPAN") {
     const itemText = e.target.parentElement.previousElementSibling.textContent;
-    if (confirm(`${itemText} will be permanently deleted. Are you sure?`)) {
+    if (confirm(`"${itemText}" will be permanently deleted. Are you sure?`)) {
       e.target.parentElement.parentElement.remove(); // li element but clicked one
 
-      // Remove task from taskList
-      const taskIndex = taskList.findIndex((task) => task.task === itemText);
+      // Remove task from toDoList
+      const taskIndex = toDoList.findIndex((task) => task.task === itemText);
       if (taskIndex !== -1) {
-        taskList.splice(taskIndex, 1);
+        toDoList.splice(taskIndex, 1);
         saveData();
       }
 
       // write the styled result message into <p> tag
-      if (listContainer.childElementCount != 0) {
-        resultParagraph.textContent = `"${itemText}" is successfully deleted `;
-        resultParagraph.style.padding = ".3rem";
+      if (listContainerUl.childElementCount != 0) {
+        resultPar.textContent = `"${itemText}" is successfully deleted `;
+        resultPar.style.padding = ".3rem";
       }
     }
   }
 }
 
-// save data in local storage : taskList dizisini JSON formatına çevirip localStorage'a kaydediyor.
-function saveData() {
-  localStorage.setItem("taskList", JSON.stringify(taskList));
+// return to default page (reset all)
+function handleClearBtnClick() {
+  if (confirm("Your ToDo List will be permanently cleared. Are you sure?")) {
+    // Clear local storage
+    localStorage.removeItem("toDoList");
+    // Reload the page
+    location.reload();
+  }
 }
 
-// show all saved datas in local storage : localStorage'dan alınan veriyi taskList dizisine çevirip, bu diziyi kullanarak sayfadaki liste elemanlarını oluşturuyor.
-function showTasks() {
-  const storedData = localStorage.getItem("taskList");
-  if (storedData) {
-    taskList = JSON.parse(storedData);
+// save data in local storage : toDoList dizisini JSON formatına çevirip localStorage'a kaydediyor.
+function saveData() {
+  localStorage.setItem("toDoList", JSON.stringify(toDoList));
+}
 
-    // Render tasks from taskList
-    taskList.forEach((task) => {
+// show all saved datas in local storage : localStorage'dan alınan veriyi toDoList dizisine çevirip, bu diziyi kullanarak sayfadaki liste elemanlarını oluşturuyor.
+function showTasks() {
+  const storedData = localStorage.getItem("toDoList");
+  if (storedData) {
+    toDoList = JSON.parse(storedData);
+
+    // Render tasks from toDoList
+    toDoList.forEach((task) => {
       const li = document.createElement("li");
 
       const itemSettingDiv = document.createElement("div");
@@ -142,7 +146,7 @@ function showTasks() {
       }
 
       // add newly created li element into ul
-      listContainer.appendChild(li);
+      listContainerUl.appendChild(li);
     });
   }
 }
