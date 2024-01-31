@@ -5,8 +5,13 @@ const addTaskI = document.getElementById("add-task");
 const clearBtn = document.querySelector(".clearBtn");
 const resultPar = document.querySelector(".result");
 
-//& Initial toDoList array
+//& Initials
+//toDoList array
 let toDoList = [];
+
+//task counts
+let totalTasks = 0;
+let doneTasks = 0;
 
 //& Event Listeners
 todoValueInput.addEventListener("keypress", handleKeyPress);
@@ -16,6 +21,7 @@ addTaskI.addEventListener("click", handleAddTaskClick);
 clearBtn.addEventListener("click", handleClearBtnClick);
 
 //& Functions
+
 // Every time "Enter" key is pressed => add it as a new task
 function handleKeyPress(e) {
   if (e.key === "Enter") addTaskI.click();
@@ -58,6 +64,10 @@ function handleAddTaskClick() {
     resultPar.textContent = "";
     resultPar.style.padding = "0rem"; // write it later
 
+    // Update task counts (increase)
+    totalTasks++;
+    updateTaskCounts();
+
     saveData();
   }
   todoValueInput.value = ""; // reset input area after adding task
@@ -70,13 +80,22 @@ function handleToggleCheckedClick(e) {
     e.target.classList.toggle("checked");
     console.log(e.target);
 
+    // Update task counts when a task is checked
+    const isChecked = e.target.classList.contains("checked");
+    if (isChecked) {
+      doneTasks++;
+    } else {
+      doneTasks--;
+    }
+    updateTaskCounts();
+
     // Update toDoList with the new checked status
     const itemText = e.target.textContent; // = inputValue
     const tasks = toDoList.filter((task) => task.task_name === itemText); // filter the checked status of more than one item with the same task name
 
     if (tasks.length > 0) {
       tasks.forEach((task) => {
-        task.checked = !task.checked;
+        task.checked = isChecked; // Update the checked status directly
       });
 
       saveData();
@@ -96,7 +115,14 @@ function handleDeleteTaskClick(e) {
         (task) => task.task_name === itemText
       );
       if (taskIndex !== -1) {
+        // Update task counts (decrease)
+        totalTasks--;
+        if (toDoList[taskIndex].checked) {
+          doneTasks--;
+        }
+
         toDoList.splice(taskIndex, 1); // starts with taskIndex and delete 1 item
+        updateTaskCounts();
         saveData();
       }
 
@@ -114,6 +140,8 @@ function handleClearBtnClick() {
   if (confirm("Your ToDo List will be permanently cleared. Are you sure?")) {
     // Clear local storage
     localStorage.removeItem("toDoList");
+    localStorage.removeItem("totalTasks");
+    localStorage.removeItem("doneTasks");
     // Reload the page
     location.reload();
   }
@@ -122,13 +150,22 @@ function handleClearBtnClick() {
 // save data in local storage : toDoList dizisini JSON formatına çevirip localStorage'a kaydediyor.
 function saveData() {
   localStorage.setItem("toDoList", JSON.stringify(toDoList));
+  localStorage.setItem("totalTasks", totalTasks);
+  localStorage.setItem("doneTasks", doneTasks);
+  updateTaskCounts(); // Call updateTaskCounts after saving data
 }
 
 // show all saved datas in local storage : localStorage'dan alınan veriyi toDoList dizisine çevirip, bu diziyi kullanarak sayfadaki liste elemanlarını oluşturuyor.
 function showTasks() {
   const storedData = localStorage.getItem("toDoList");
+  const storedTotalTasks = localStorage.getItem("totalTasks");
+  const storedDoneTasks = localStorage.getItem("doneTasks");
   if (storedData) {
     toDoList = JSON.parse(storedData);
+
+    // Update task counts
+    totalTasks = storedTotalTasks ? parseInt(storedTotalTasks) : 0;
+    doneTasks = storedDoneTasks ? parseInt(storedDoneTasks) : 0;
 
     // Render tasks from toDoList
     toDoList.forEach((task) => {
@@ -154,7 +191,19 @@ function showTasks() {
       // add newly created li element into ul
       listContainerUl.appendChild(li);
     });
+
+    // Update task counts in the UI
+    updateTaskCounts();
   }
+}
+
+// update total number of tasks and number of completed tasks (done)
+function updateTaskCounts() {
+  const totalSpan = document.getElementById("total");
+  const doneSpan = document.getElementById("done");
+
+  totalSpan.textContent = totalTasks;
+  doneSpan.textContent = doneTasks;
 }
 
 showTasks();
