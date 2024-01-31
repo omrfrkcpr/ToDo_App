@@ -84,8 +84,8 @@ function handleToggleCheckedClick(e) {
   }
 }
 
+// delete according to target
 function handleDeleteTaskClick(e) {
-  // delete according to target
   if (e.target.tagName === "I" && e.target.parentElement.tagName === "SPAN") {
     const itemText = e.target.parentElement.previousElementSibling.textContent; // = inputValue
     if (confirm(`"${itemText}" will be permanently deleted. Are you sure?`)) {

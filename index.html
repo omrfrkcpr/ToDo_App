@@ -15,6 +15,11 @@
   </head>
   <body>
     <div class="container">
+      <nav class="todo-count">
+        <p class="pCount">
+          Done : <span id="done">0</span> / <span id="total">0</span>
+        </p>
+      </nav>
       <header class="todo-header">
         <h2>ToDo List</h2>
         <img
@@ -23,9 +28,9 @@
           alt="todo-list-gif"
         /><br />
       </header>
-      <nav>
+      <div>
         <p class="result"></p>
-      </nav>
+      </div>
       <main class="todo-body">
         <input
           type="text"
