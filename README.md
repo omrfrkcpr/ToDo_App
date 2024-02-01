@@ -13,10 +13,13 @@ Project aims to create a simple To-Do App.
 ```
 ToDo_App (folder)
 |
-|----readme.md         
+|----assets
+|----app.js
 |----index.html
+|----LICENSE
+|----readme.md
 |----style.css
-|----App.js
+|----todo-project.gif
 ```
 
 ## Expected Outcome
@@ -42,6 +45,5 @@ Make a To-Do App as in the sample designs.
 - improve coding skills within HTML & CSS & JS
 
 - use git commands (push, pull, commit, add etc.) and Github as Version Control System.
-
 
 <p align='center'> <strong>⌛ Happy Coding  ✍</strong> </p>
