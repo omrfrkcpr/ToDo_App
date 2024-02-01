@@ -35,7 +35,7 @@ function handleKeyPress(e) {
 
 // Every time plus sign is clicked => add a new task
 function handleAddTaskClick() {
-  const inputValue = todoValueInput.value;
+  const inputValue = todoValueInput.value; // global scope in func
 
   if (inputValue === "") {
     alert("Please enter your task");
@@ -122,7 +122,7 @@ function handleDeleteTaskClick(e) {
     }
 
     // write the styled result message into <p> tag
-    if (listContainerUl.childElementCount >= 0) {
+    if (listContainerUl.childElementCount > 0) {
       // (>= because) => show also last element
       resultPar.textContent = `Task "${itemText}" is successfully deleted `;
       resultPar.style.padding = ".3rem";
