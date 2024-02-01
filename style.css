@@ -47,7 +47,7 @@ body {
   text-align: center;
 }
 
-.todo-count .pCount {
+.todo-count p {
   background-color: #a28089;
   color: white;
   width: 100px;
@@ -61,15 +61,15 @@ body {
 }
 
 div .result {
-  background-color: limegreen;
-  color: black;
+  background-color: indianred;
+  color: white;
   text-align: center;
   margin: 10px auto 15px;
   width: 300px;
   border-radius: 5px;
 }
 
-.todo-body {
+.todo-main {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -79,7 +79,7 @@ div .result {
   padding-left: 20px;
 }
 
-.todo-body input {
+.todo-main input {
   flex: 1; /* flex-grow | flex-basis */
   border: none;
   outline: none;
@@ -88,18 +88,18 @@ div .result {
   font-size: 20px;
 }
 
-.todo-body i {
+.todo-main i {
   cursor: pointer;
-  height: 55px;
-  width: 55px;
-  padding: 15px;
+  height: 56px;
+  width: 56px;
+  padding: 14px;
   background-color: limegreen;
   border-radius: 40px;
   font-size: 2rem;
   color: white;
 }
 
-.todo-body i:hover {
+.todo-main i:hover {
   color: black;
   transition-duration: 0.3s;
 }
@@ -142,7 +142,7 @@ ul li.checked::before {
 }
 
 .item-setting {
-  width: 80%;
+  width: 85%;
   overflow: auto;
 }
 
@@ -150,7 +150,7 @@ ul li.checked::before {
   display: none;
 }
 
-.todo-controls {
+.todo-control {
   width: 25px;
   height: 25px;
   padding: 3px;
@@ -158,7 +158,7 @@ ul li.checked::before {
   color: indianred;
 }
 
-.todo-controls:hover {
+.todo-control:hover {
   color: black;
   transform: scale(1.03);
 }

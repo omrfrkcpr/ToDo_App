@@ -16,9 +16,7 @@
   <body>
     <div class="container">
       <nav class="todo-count">
-        <p class="pCount">
-          Done : <span id="done">0</span> / <span id="total">0</span>
-        </p>
+        <p>Done : <span id="done">0</span> / <span id="total">0</span></p>
       </nav>
       <header class="todo-header">
         <h2>ToDo List</h2>
@@ -31,7 +29,7 @@
       <div>
         <p class="result"></p>
       </div>
-      <main class="todo-body">
+      <main class="todo-main">
         <input
           type="text"
           id="todo-value"
@@ -41,11 +39,7 @@
         <i class="fa-solid fa-plus" id="add-task" alt="+"></i>
       </main>
       <section class="todo-lists">
-        <ul id="list-container" class="list-container">
-          <!-- <li class="checked">Task 1</li>
-          <li>Task 2</li>
-          <li>Task 3</li> -->
-        </ul>
+        <ul id="list-container" class="list-container"></ul>
       </section>
       <section class="clearSection">
         <button class="clearBtn">Clear</button>
@@ -54,3 +48,10 @@
     <script src="app.js" type="text/javascript"></script>
   </body>
 </html>
+
+<!-- <ul>
+  <li class="checked">
+    <div>`${inputvalue}`</div>
+    <span><i class="fa-solid fa-trash-can todo-controls"></i></span>
+  </li>
+</ul> -->
