@@ -163,12 +163,12 @@ ul li.checked::before {
   transform: scale(1.03);
 }
 
-.clearSection {
+.clear-section {
   text-align: center;
   margin-top: 1rem;
 }
 
-.clearBtn {
+.clear-btn {
   height: 40px;
   width: 70px;
   border: none;
@@ -177,7 +177,7 @@ ul li.checked::before {
   font-size: 1rem;
 }
 
-.clearBtn:hover {
+.clear-btn:hover {
   background-color: rgb(231, 170, 95);
   color: white;
 }

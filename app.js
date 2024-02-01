@@ -4,7 +4,7 @@
 const todoValueInput = document.getElementById("todo-value");
 const listContainerUl = document.getElementById("list-container");
 const addTaskI = document.getElementById("add-task");
-const clearBtn = document.querySelector(".clearBtn");
+const clearBtn = document.querySelector(".clear-btn");
 const resultPar = document.querySelector(".result");
 
 //& ---------------------------------- */
@@ -102,7 +102,9 @@ function handleListContainerClick(e) {
 // delete based on target
 function handleDeleteTaskClick(e) {
   const itemText = e.target.parentElement.previousElementSibling.textContent; // = inputValue
-  if (confirm(`"${itemText}" will be permanently deleted. Are you sure?`)) {
+  if (
+    confirm(`Task "${itemText}" will be permanently deleted. Are you sure?`)
+  ) {
     e.target.parentElement.parentElement.remove(); // clicked li element
 
     // Remove task from toDoList
@@ -122,7 +124,7 @@ function handleDeleteTaskClick(e) {
     // write the styled result message into <p> tag
     if (listContainerUl.childElementCount >= 0) {
       // (>= because) => show also last element
-      resultPar.textContent = `"${itemText}" is successfully deleted `;
+      resultPar.textContent = `Task "${itemText}" is successfully deleted `;
       resultPar.style.padding = ".3rem";
     }
   }
