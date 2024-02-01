@@ -26,6 +26,8 @@ ToDo_App (folder)
 
 ## Expected Outcome
 
+![todo-project](https://github.com/omrfrkcpr/ToDo_App/assets/77440899/15fa86c9-c2df-46b6-886a-13ecb280463b)
+
 ## Objective
 
 Make a To-Do App as in the sample designs.
