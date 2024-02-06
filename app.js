@@ -228,9 +228,14 @@ function updateTaskCounts() {
 function handleClearBtnClick() {
   if (confirm("Your ToDo List will be permanently cleared. Are you sure?")) {
     // Clear local storage
-    localStorage.removeItem("toDoList");
-    localStorage.removeItem("totalTasks");
-    localStorage.removeItem("doneTasks");
+    //^ 1. Method
+    localStorage.clear();
+
+    //^ 2. Method
+    // localStorage.removeItem("toDoList");
+    // localStorage.removeItem("totalTasks");
+    // localStorage.removeItem("doneTasks");
+
     // Reload the page
     location.reload();
   }
