@@ -24,7 +24,7 @@ ToDo_App (folder)
 |----todo-project.gif
 ```
 
-## Expected Outcome
+## Outcome
 
 ![todo-project](https://github.com/omrfrkcpr/ToDo_App/assets/77440899/15fa86c9-c2df-46b6-886a-13ecb280463b)
 
@@ -38,13 +38,7 @@ Make a To-Do App as in the sample designs.
   - When I click done button on on to-do app, I can mark the selected to-do task as done and count of uncompleted task decrease 1.
   - When I click button on on to-do app, I can delete a to-do task. Completed / total task counts decrease 1.
 
-### At the end of the project, following topics are to be covered;
-
-- HTML
-- CSS
-- JS
-
-### At the end of the project, students will be able to;
+### At the end of the project, will be able to;
 
 - improve coding skills within HTML & CSS & JS
 
